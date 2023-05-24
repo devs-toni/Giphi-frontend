@@ -1,0 +1,8 @@
+export const TYPES = {
+  
+  //Auth
+  LOGIN_SUCCESS: "LOGIN_SUCCESS",
+  LOGIN_ERROR: "LOGIN_ERROR",
+  LOGOUT: "LOGOUT",
+  RESET_ERROR: "RESET_ERROR",
+}

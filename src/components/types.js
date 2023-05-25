@@ -1,0 +1,4 @@
+export const COMPONENT_TYPES = {
+  LOGIN: "LOGIN",
+  REGISTER: "REGISTER"
+}

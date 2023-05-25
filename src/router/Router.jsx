@@ -12,6 +12,7 @@ export const Router = () => {
             <Home />
           </PrivateRoute>
         } />
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

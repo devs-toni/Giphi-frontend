@@ -102,10 +102,10 @@ export const AuthProvider = ({ children }) => {
     initialState
   );
 
-  const login = useCallback((id, user, token, error) => {
+  const login = useCallback((user, token, error) => {
     !error
       ?
-      dispatch({ type: TYPES.LOGIN_SUCCESS, payload: { id, user, token } })
+      dispatch({ type: TYPES.LOGIN_SUCCESS, payload: { user, token } })
       :
       dispatch({ type: TYPES.LOGIN_ERROR, payload: error })
   }, [])

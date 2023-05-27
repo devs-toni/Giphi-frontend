@@ -9,29 +9,26 @@ export const useAuth = () => {
   return useContext(AuthContext)
 }
 
-const storage_token = localStorage.getItem('giphi_token') || undefined;
+const storage_token = JSON.parse(localStorage.getItem('giphi_token')) || undefined;
 
 export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const validateUser = async () => {
       try {
-        axios.post(import.meta.env.VITE_BACKEND + "users/validate", {}, {
+        axios.get(process.env.REACT_APP_BACKEND_URL + "/users/validate", {
           headers: {
             "Authorization": storage_token
           }
         })
           .then(({ data, status }) => {
-
             status === 200 &&
-              refresh(data.id, {
+              refresh({
                 id: data.id,
                 userName: data.user_name,
                 email: data.email,
-                role: data.role,
-                type: data.type,
-              });
-
+                role: data.role
+              }, null);
           })
       } catch (error) {
         console.error(error)
@@ -41,15 +38,13 @@ export const AuthProvider = ({ children }) => {
     storage_token && validateUser();
   }, [])
 
-
-
   const initialState = {
     isAuthenticated: storage_token ? true : false,
     user: {
       id: -1,
       userName: "",
       email: "",
-      type: "",
+      role: "",
     },
     token: "",
     error: "",
@@ -59,13 +54,14 @@ export const AuthProvider = ({ children }) => {
     switch (action.type) {
 
       case TYPES.LOGIN_SUCCESS:
+        localStorage.setItem("giphi_token", JSON.stringify(action.payload.token))
         return {
           isAuthenticated: true,
           user: action.payload.user,
           token: action.payload.token,
           error: "",
         };
-      case TYPES.LOGIN_UNSUCCESS:
+      case TYPES.LOGIN_ERROR:
         return {
           ...state,
           error: action.payload,
@@ -74,7 +70,12 @@ export const AuthProvider = ({ children }) => {
         return {
           ...state,
           isAuthenticated: false,
-          user: "",
+          user: {
+            id: -1,
+            userName: "",
+            email: "",
+            role: "",
+          },
           token: "",
           error: "",
         };
@@ -87,8 +88,8 @@ export const AuthProvider = ({ children }) => {
       case TYPES.REFRESH_PAGE:
         return {
           isAuthenticated: true,
-          user: action.payload.user,
-          token: action.payload.token,
+          user: action.payload,
+          token: storage_token,
           error: ""
         };
 
@@ -115,10 +116,10 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: TYPES.LOGOUT })
   }, []);
 
-  const refresh = useCallback((id, user, error) => {
+  const refresh = useCallback((user, error) => {
     !error
       ?
-      dispatch({ type: TYPES.REFRESH_PAGE, payload: { id, user, storage_token } })
+      dispatch({ type: TYPES.REFRESH_PAGE, payload: user })
       :
       dispatch({ type: TYPES.LOGIN_ERROR, payload: error })
   }, [])

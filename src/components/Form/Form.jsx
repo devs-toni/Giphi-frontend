@@ -5,6 +5,10 @@ import { useToast } from "../../hooks/useToast.js"
 import { COMPONENT_TYPES } from "../types.js"
 import { useFetchUserAuthenticate } from "../../hooks/useFetchUserAuthenticate.js"
 import { useAuth } from "../../context/AuthContext.jsx"
+import { Link, useNavigate } from "react-router-dom"
+import st from "./Form.module.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowCircleLeft, faArrowRightArrowLeft } from "@fortawesome/free-solid-svg-icons"
 
 export const Form = ({ type }) => {
 
@@ -14,6 +18,7 @@ export const Form = ({ type }) => {
   const { success, failure } = useToast()
 
   const { login } = useAuth()
+  const navigate = useNavigate()
 
   const [isLogin, setIsLogin] = useState()
   const [errors, setErrors] = useState({
@@ -23,7 +28,6 @@ export const Form = ({ type }) => {
   })
 
   const submit = ({ userName, email, password, rPassword }) => {
-    console.log(userName)
     const errors = {}
 
     if (email.length < 4)
@@ -66,8 +70,10 @@ export const Form = ({ type }) => {
           email,
           password
         }).then(({ status, data }) => {
-          status === 200 &&
-            login(data.user, data.token);
+          if (status === 200) {
+            login(data.user, data.token)
+            navigate("/")
+          }
         }).catch(({ response }) => {
           response.status === 401
             ?
@@ -83,43 +89,42 @@ export const Form = ({ type }) => {
     setIsLogin(type === COMPONENT_TYPES.LOGIN ? true : false)
   }, [type])
 
-
-
-
   return (
-    <div>
-      <form onSubmit={handleSubmit((data) => submit(data))}>
+    <div className={st.formContainer}>
+      <Link to="/"><FontAwesomeIcon className={st.back} icon={faArrowCircleLeft} /></Link>
+      <form className={st.form} onSubmit={handleSubmit((data) => submit(data))}>
         {
           !isLogin &&
           (
-            <div>
-              <label htmlFor="userName">Username:</label>
-              <input {...register("userName", { required: true })} type="text" id="userName" placeholder="pepito" />
-              <span>{errors.userName}</span>
+            <div className={st.formSection}>
+              <label className={st.label} htmlFor="userName">Username:</label>
+              <input className={st.inputText} {...register("userName", { required: true })} type="text" id="userName" placeholder="" />
+              <span className={st.error}>{errors.userName}</span>
             </div>
           )
         }
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input {...register("email", { required: true })} type="email" id="email" placeholder="pepito" />
-          <span>{errors.email}</span>
+        <div className={st.formSection}>
+          <label className={st.label} htmlFor="email">Email:</label>
+          <input className={st.inputText} {...register("email")} type="email" id="email" placeholder="" required />
+          <span className={st.error}>{errors.email}</span>
         </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input {...register("password", { required: true })} type="password" id="password" placeholder="pepito" />
-          <span>{errors.password}</span>
+
+        <div className={st.formSection}>
+          <label className={st.label} htmlFor="password">Contraseña:</label>
+          <input className={st.inputText} {...register("password")} type="password" id="password" placeholder="" required />
+          <span className={st.error}>{errors.password}</span>
         </div>
         {
           !isLogin &&
           (
-            <div>
-              <label htmlFor="rPassword">Repetir Contraseña:</label>
-              <input {...register("rPassword", { required: true })} type="password" id="rPassword" placeholder="pepito" />
+            <div className={st.formSection}>
+              <label className={st.label} htmlFor="rPassword">Repetir Contraseña:</label>
+              <input className={st.inputText} {...register("rPassword")} type="password" id="rPassword" placeholder="" required />
             </div>
           )
         }
-        <p onClick={() => setIsLogin(!isLogin)}>{isLogin ? "Aún no tienes una cuenta?" : "Ya estas registrado?"}</p>
-        <input type="submit" value={isLogin ? "Login" : "Registro"} />
+        <p className={st.already} onClick={() => setIsLogin(!isLogin)}>{isLogin ? "Aún no tienes una cuenta?" : "Ya estas registrado?"}</p>
+        <input className={st.submit} type="submit" value={isLogin ? "Login" : "Registro"} />
       </form >
     </div >
   )

@@ -1,4 +1,9 @@
 export const COMPONENT_TYPES = {
   LOGIN: "LOGIN",
-  REGISTER: "REGISTER"
+  REGISTER: "REGISTER",
+
+  
+  EXPLORER: "EXPLORER",
+  MY: "MY",
+  USERS: "USERS",
 }

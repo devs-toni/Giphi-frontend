@@ -1,0 +1,12 @@
+.menu {
+  
+}
+
+.add {
+  cursor: pointer;
+
+}
+
+.add:hover {
+  color: cyan
+}

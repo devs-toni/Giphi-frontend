@@ -1,0 +1,23 @@
+.modal {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: -1;
+}
+
+.open {
+  opacity: 1;
+  z-index: 10;
+}
+
+.modalScreen {
+  width: 30%;
+  height: 50%;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0;
+}

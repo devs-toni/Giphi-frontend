@@ -61,7 +61,7 @@ export const DataProvider = ({ children }) => {
 
   const [dataState, dispatch] = useReducer(reducer, initialState)
 
-  const addUserGif = useCallback(() => {
+  const getUserGifs = useCallback(() => {
     axios.get(process.env.REACT_APP_BACKEND_URL + '/gifs/' + authState.user.id, { headers: { "Authorization": authState.token } })
       .then(({ data }) => dispatch({ type: TYPES.SET_USER_GIFS, payload: data }))
   }, [authState.token, authState.user.id])
@@ -69,7 +69,7 @@ export const DataProvider = ({ children }) => {
 
   const data = {
     dataState,
-    addUserGif
+    getUserGifs,
   }
 
   return <DataContext.Provider value={data}>{children}</DataContext.Provider>

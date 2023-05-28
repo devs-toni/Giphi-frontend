@@ -27,5 +27,17 @@ export const useToast = () => {
     })
   }
 
-  return { success, failure }
+  const askForDelete = () => {
+    return Swal.fire({
+      title: 'Seguro que quieres eliminar?',
+      text: "Esta acción no se puede revertir!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Eliminar'
+    })
+  }
+
+  return { success, failure, askForDelete }
 }

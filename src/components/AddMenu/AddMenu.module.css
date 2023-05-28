@@ -1,0 +1,14 @@
+.menu {
+  color: white;
+}
+
+.add {
+  cursor: pointer;
+  width: 130px;
+  padding-bottom: 20px;
+}
+
+.add:hover {
+  color: cyan;
+  border-bottom: 1px solid cyan;
+}

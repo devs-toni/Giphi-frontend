@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useAuth } from "../../context/AuthContext"
 import { useFetchGifSave } from "../../hooks/useFetchGifSave"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import st from './Nav.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faArrowRightToBracket, faArrowsRotate, faHandScissors, faPersonWalkingArrowRight } from "@fortawesome/free-solid-svg-icons"
@@ -11,6 +11,7 @@ export const Nav = ({ section, setSection }) => {
 
   const { authState, logout } = useAuth()
   const { fetchGifSave } = useFetchGifSave()
+  const navigate = useNavigate()
 
   const reloadDb = async () => {
     const giphyData = []
@@ -47,16 +48,19 @@ export const Nav = ({ section, setSection }) => {
       {
         authState.isAuthenticated
           ?
-          <FontAwesomeIcon icon={faPersonWalkingArrowRight} className={st.btn} onClick={logout} />
+          <FontAwesomeIcon icon={faPersonWalkingArrowRight} className={st.btn} onClick={() => {
+            setSection(COMPONENT_TYPES.EXPLORER)
+            logout()
+          }} />
           :
-          <Link to="/login" className={st.btn && st.loginBtn}><FontAwesomeIcon icon={faArrowRightToBracket} /></Link>
+          <Link to="/login" className={`${st.btn} ${st.loginBtn}`}><FontAwesomeIcon icon={faArrowRightToBracket} /></Link>
       }
       <div className={st.navigator}>
         {
           authState.isAuthenticated
             ?
             <>
-              <p className={st.user}><FontAwesomeIcon className={st.hand} icon={faHandScissors} /><span className={st.hello}>Bienvenido</span> Pepe!</p>
+              <p className={st.user}><FontAwesomeIcon className={st.hand} icon={faHandScissors} /><span className={st.hello}>Bienvenido</span> {authState.user.userName}!</p>
               <p
                 onClick={() => setSection(COMPONENT_TYPES.EXPLORER)}
                 className={`${st.title} ${st.hover} ${st.isLogged} ${section === COMPONENT_TYPES.EXPLORER ? st.selected : ""}`}
@@ -72,7 +76,14 @@ export const Nav = ({ section, setSection }) => {
             </>
             :
             <>
-              <p className={st.title}>Explorer</p>
+              <p
+                onClick={() => setSection(COMPONENT_TYPES.EXPLORER)}
+                className={`${st.title} ${st.hover} ${st.isLogged} ${section === COMPONENT_TYPES.EXPLORER ? st.selected : ""}`}
+              >Explorer</p>
+              <p
+                onClick={() => setSection(COMPONENT_TYPES.USERS)}
+                className={`${st.title} ${st.hover} ${st.isLogged} ${section === COMPONENT_TYPES.USERS ? st.selected : ""}`}
+              >User gifs</p>
             </>
         }
       </div>

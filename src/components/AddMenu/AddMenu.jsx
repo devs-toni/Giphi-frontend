@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import st from "./CrudMenu.module.css"
+import st from "./AddMenu.module.css"
 import { faAdd } from "@fortawesome/free-solid-svg-icons"
 import { Button, Modal } from "flowbite-react"
 import { useState } from "react"
@@ -9,11 +9,11 @@ import { useAuth } from "../../context/AuthContext"
 import { useToast } from "../../hooks/useToast"
 import { useData } from "../../context/DataContext"
 
-export const CrudMenu = ({ openAdd }) => {
+export const AddMenu = () => {
 
   const { fetchGifSave } = useFetchGifSave()
   const { authState } = useAuth()
-  const { addUserGif } = useData()
+  const { getUserGifs } = useData()
 
   const { failure, success } = useToast()
 
@@ -25,7 +25,7 @@ export const CrudMenu = ({ openAdd }) => {
       .then(({ status, data }) => {
         if (status !== 500) {
           success("File uploaded successfully!")
-          addUserGif()
+          getUserGifs()
         } else
           failure("File aleady exists")
 
@@ -49,7 +49,7 @@ export const CrudMenu = ({ openAdd }) => {
           </Modal.Header>
           <Modal.Body>
             <div className="space-y-8">
-              <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg" name="upload" {...register("gif")} />
+              <input type="file" accept="image/png, image/gif, image/jpg, image/jpeg, image/webp" name="upload" {...register("gif")} />
             </div>
           </Modal.Body>
           <Modal.Footer>

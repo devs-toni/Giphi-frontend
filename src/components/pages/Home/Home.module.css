@@ -23,3 +23,10 @@
   border-radius: 10px;
   color: white;
 }
+
+.menu {
+  width: 100%;
+  margin-top: 50px;
+  display: flex;
+  justify-content: left;
+}

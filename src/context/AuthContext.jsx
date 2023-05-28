@@ -22,13 +22,12 @@ export const AuthProvider = ({ children }) => {
           }
         })
           .then(({ data, status }) => {
-            status === 200 &&
               refresh({
                 id: data.id,
-                userName: data.user_name,
+                userName: data.userName,
                 email: data.email,
                 role: data.role
-              }, null);
+              }, null)
           })
       } catch (error) {
         console.error(error)

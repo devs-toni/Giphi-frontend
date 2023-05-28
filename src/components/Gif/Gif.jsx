@@ -5,7 +5,6 @@ import { useData } from '../../context/DataContext'
 import { useToast } from '../../hooks/useToast'
 import { useAuth } from '../../context/AuthContext'
 import { useFetchGifDelete } from '../../hooks/useFetchGifDelete'
-import { v4 as uuidv4 } from 'uuid'
 import { useRef, useState } from "react"
 
 export const Gif = ({ title, gif, _id, userId, setEditId, setEditTitle, setIsEditShow }) => {
@@ -46,7 +45,7 @@ export const Gif = ({ title, gif, _id, userId, setEditId, setEditTitle, setIsEdi
 
 
   return (
-    <div className={st.gifContainer} key={uuidv4()}>
+    <div className={st.gifContainer}>
       <div className={st.gifData} >
         {
           typeof userId !== "undefined" &&

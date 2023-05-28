@@ -2,6 +2,7 @@ import st from "./Container.module.css"
 import { EditModal } from '../EditModal/EditModal';
 import { useState } from 'react';
 import { Gif } from '../Gif/Gif';
+import { v4 as uuidv4 } from 'uuid'
 
 export const Container = ({ gifs }) => {
 
@@ -16,6 +17,7 @@ export const Container = ({ gifs }) => {
         gifs?.map(({ _id, title, gif, userId }) => {
           return (
             <Gif
+              key={uuidv4()}
               _id={_id}
               title={title}
               gif={gif}

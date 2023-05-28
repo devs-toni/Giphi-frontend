@@ -4,17 +4,20 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <AuthProvider>
-    <DataProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </DataProvider>
-  </AuthProvider>
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+    <AuthProvider>
+      <DataProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </DataProvider>
+    </AuthProvider>
+  </GoogleOAuthProvider>
 
 );
 

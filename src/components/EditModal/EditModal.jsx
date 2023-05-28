@@ -2,9 +2,8 @@ import { Button, Modal } from "flowbite-react"
 import { useAuth } from "../../context/AuthContext"
 import { useData } from "../../context/DataContext"
 import { useToast } from "../../hooks/useToast"
-import { useForm } from "react-hook-form"
 import { useFetchGifEdit } from "../../hooks/useFetchGifEdit"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
 
 
 export const EditModal = ({ id, title, show, setShow }) => {
@@ -38,7 +37,7 @@ export const EditModal = ({ id, title, show, setShow }) => {
   }
 
   useEffect(() => {
-    if (valRef.current) valRef.current.value = title
+    if (valRef.current) valRef.current.value = title.split(".")[0]
   }, [title])
 
 
@@ -57,7 +56,7 @@ export const EditModal = ({ id, title, show, setShow }) => {
           <Modal.Body>
             <div className="space-y-8">
               <label>Nombre:</label>
-              <input autoFocus defaultValue={title} type="text" name="titleInput" id="titleInput" minLength={5} ref={valRef} />
+              <input autoFocus defaultValue={title.split(".")[0]} type="text" name="titleInput" id="titleInput" minLength={5} ref={valRef} />
             </div>
           </Modal.Body>
           <Modal.Footer>
